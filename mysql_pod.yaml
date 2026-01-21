@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+spec:
+  restartPolicy: Always
+  volumes:
+    - name: mysql-secret-volume
+      secret:
+        secretName: mysql-secret
+
+    - name: mysql-data
+      emptyDir: {}   # for demo only (use PVC in prod)
+
+  containers:
+    - name: mysql
+      image: mysql:8.0
+      ports:
+        - containerPort: 3306
+
+      volumeMounts:
+        - name: mysql-secret-volume
+          mountPath: /etc/mysql-secret
+          readOnly: true
+
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+
+      command:
+        - /bin/sh
+        - -c
+        - |
+          export MYSQL_ROOT_PASSWORD=$(cat /etc/mysql-secret/MYSQL_ROOT_PASSWORD)
+          export MYSQL_DATABASE=$(cat /etc/mysql-secret/MYSQL_DATABASE)
+          export MYSQL_USER=$(cat /etc/mysql-secret/MYSQL_USER)
+          export MYSQL_PASSWORD=$(cat /etc/mysql-secret/MYSQL_PASSWORD)
+          exec docker-entrypoint.sh mysqld

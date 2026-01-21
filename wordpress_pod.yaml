@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wordpress-pod
+spec:
+  containers:
+  - name: wordpress-pod
+    image: wordpress:php8.4-fpm-alpine
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    volumeMounts:
+    - name: vol-wordpress
+      mountPath: /var/www/html
+  volumes:
+  - name: vol-wordpress
+    hostPath: 
+      path: /wordpress
+      type: DirectoryOrCreate

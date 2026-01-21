@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Deployment 
+metadata:
+  name: jkwr-Deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jkwr
+  template:
+    metadata:
+      labels:
+        app: jkwr
+spec:
+  containers:
+  - name: jenkinspod
+    image: jenkins/jenkins:latest-jdk25
+    ports:
+    - containerPort: 8080
+    volumeMounts:
+    - name: vol-jenkins
+      mountPath: /var/jenkins_data
+  containers:
+  - name: wordpresspod
+    image: wordpress:php8.4-fpm-alpine
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    volumeMounts:
+    - name: vol-wordpress
+      mountPath: /var/www/html
+  volumes:
+  - name: vol-jkwr
+    hostPath: 
+      path: /Data/jkwr
+      type: DirectoryOrCreate

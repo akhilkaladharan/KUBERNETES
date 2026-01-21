@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aknginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aknginx
+  template:
+    metadata:
+      labels:
+        app: aknginx
+    spec:
+      containers:
+      - name: aknginx
+        image: akshaykrishnaa/nginxp1
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: my-registery-name1

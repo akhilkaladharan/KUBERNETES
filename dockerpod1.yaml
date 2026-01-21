@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mynginx
+spec:
+  imagePullSecrets: 
+  - name: newsecret
+  containers:
+  - name: nginx
+    image: akhiakhi1/nginx_p1:latest
+    ports:
+    - containerPort: 80
+
