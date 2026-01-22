@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: busybox-pod
+  name: busybox-date
 spec:
   containers:
-  - name: busybox-pod
+  - name: busybox-date 
     image: busybox:unstable-musl
     command: 
     - /bin/sh
@@ -24,4 +24,3 @@ spec:
     hostPath: 
       path: /Data/busybox
       type: Directory
-  
